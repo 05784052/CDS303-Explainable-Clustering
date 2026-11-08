@@ -411,7 +411,33 @@
                 <p>Our initial clustering analysis will focus on transaction volume and average transaction value. The additional variables will support classification and interpretation rather than directly determine the clusters.</p>
                 <p>This design maintains a focused research question while allowing us to examine the characteristics that distinguish the resulting commercial district profiles.</p>
             </section>
+            <section id="supplementary-dataset">
+                <h2>Supplementary Dataset</h2>
+                <p>
+                    <strong>Dataset:</strong>
+                    Seoul Commercial District Analysis Service — Store Information by Commercial District
+                </p>
+                <p>
+                    <strong>Provider:</strong>
+                    Seoul Metropolitan Government
+                </p>
+                <p>
+                    <strong>Official Source:</strong>
+                    <a href="https://data.seoul.go.kr/dataList/OA-15577/S/1/datasetView.do?utm_source=chatgpt.com">https://data.seoul.go.kr/dataList/OA-15577/S/1/datasetView.do?utm_source=chatgpt.com</a>
+                </p>
+                <p>
+                    <strong>Data Format:</strong>
+                    Original CSV file
+                </p>
+                <p>
+                    <strong>Study Period:</strong>
+                    2025 Q1–Q4
+                </p>
+                <h3>Purpose and Connection to the Main Dataset</h3>
+                <p>We will download the original CSV from the Seoul Open Data Plaza and use Python to filter the data to 2025 Q1–Q4. We will aggregate store records by commercial district and quarter, then merge them with our primary sales dataset using shared district and quarter identifiers.</p>
+                <p>Relevant variables include total store counts, franchise store counts, and store openings and closures. We will calculate transactions per store and franchise share to help interpret differences across clusters.</p>
+                <p>The supplementary dataset will be used only for cluster interpretation, not as an input for clustering.</p>
+            </section>
         </main>
     </body>
 </html>
-
