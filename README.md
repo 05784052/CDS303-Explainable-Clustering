@@ -21,7 +21,7 @@ We will use an explainable clustering framework to identify these profiles and i
 
 **Dataset:** Seoul Commercial District Analysis Service — Estimated Sales by Commercial District (2025)
 
-**Source:** [Public Data Portal](https://www.data.go.kr/data/15076355/fileData.do)
+**Source:** [서울특별시_우리마을가게 상권분석서비스(상권-추정매출)](https://www.data.go.kr/data/15076355/fileData.do)
 
 The dataset contains 85,732 records and 55 variables covering the four quarters of 2025. It includes estimated sales amounts, transaction counts, commercial district identifiers, service industry categories, and sales breakdowns by day of the week, time period, gender, and customer age group.
 
