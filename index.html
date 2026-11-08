@@ -155,6 +155,76 @@
             <h2>Expected Contribution</h2>
             <p>The project seeks to develop interpretable profiles of commercial districts based on their transaction characteristics. Rather than assuming a fixed set of district types, we will determine the number and characteristics of clusters through analysis.</p>
             <p>The resulting profiles may help describe how commercial activity differs across Seoul's districts and quarters. Any interpretations will be based on the observed data and evaluated clustering results rather than predefined categories.</p>
+            <section id="paper-summary" aria-labelledby="paper-summary-heading">
+                <h2 id="paper-summary-heading">Paper Summary</h2>
+                <h3>Paper 1: A Comprehensive Framework for Explainable Cluster Analysis</h3>
+                <p>
+                    <strong>Authors:</strong>
+                    Miguel Alvarez-Garcia, Raquel Ibar-Alonso, and Mar Arenas-Parra (2024)<br>
+                    <strong>Journal:</strong>
+                    <em>Information Sciences</em>
+                    , 663, 120282<br>
+                    <strong>DOI:</strong>
+                    <a href="https://doi.org/10.1016/j.ins.2024.120282">https://doi.org/10.1016/j.ins.2024.120282</a>
+                </p>
+                <p>This paper introduces a four-step framework for explainable cluster analysis. The authors emphasize that clustering results should be both reliable and interpretable. Because clustering is an unsupervised learning method, it can identify groups of similar observations without directly explaining which characteristics distinguish those groups. The proposed framework addresses this challenge by combining data preparation, dimensionality reduction, clustering, and classification.</p>
+                <h4>The Four-Step Framework</h4>
+                <p>
+                    <strong>1. Data Preprocessing</strong>
+                </p>
+                <p>The first step prepares the dataset for analysis by addressing data quality issues and transforming variables into suitable formats. This is important because missing values, inconsistent measurements, and differences in variable scales can affect clustering results.</p>
+                <p>
+                    <strong>2. Dimensionality Reduction</strong>
+                </p>
+                <p>The second step reduces the complexity of the dataset while attempting to preserve important information. This can help address redundancy and make high-dimensional data more manageable for clustering. The usefulness of dimensionality reduction depends on the characteristics of the dataset.</p>
+                <p>
+                    <strong>3. Clustering</strong>
+                </p>
+                <p>The third step groups observations according to their similarities. Unlike supervised classification, clustering does not require predefined target labels. Its purpose is to discover patterns and identify meaningful groups within the data.</p>
+                <p>
+                    <strong>4. Classification for Explainability</strong>
+                </p>
+                <p>The final step uses the cluster labels generated during clustering as target labels for a supervised classification model. The classifier learns to distinguish the identified groups using the available features. Its predictions and feature contributions can then help explain the characteristics associated with each cluster.</p>
+                <p>Classification does not create the original clusters. Instead, it provides a way to interpret and characterize the groups discovered through unsupervised learning.</p>
+                <h4>Main Takeaway</h4>
+                <p>The paper demonstrates that identifying clusters is only part of a useful analysis. Understanding the features that distinguish those clusters is also essential for interpreting the results and communicating their practical significance.</p>
+                <h3>Paper 2: Uncovering Student Profiles: An Explainable Cluster Analysis Approach to PISA 2022</h3>
+                <p>
+                    <strong>Authors:</strong>
+                    Miguel Alvarez-Garcia, Mar Arenas-Parra, and Raquel Ibar-Alonso (2024)<br>
+                    <strong>Journal:</strong>
+                    <em>Computers &amp; Education</em>
+                    , 223, 105166<br>
+                    <strong>DOI:</strong>
+                    <a href="https://doi.org/10.1016/j.compedu.2024.105166">https://doi.org/10.1016/j.compedu.2024.105166</a>
+                </p>
+                <p>This paper applies the explainable clustering framework to PISA 2022 student data. The researchers use the methodology to identify student profiles and investigate the characteristics that distinguish them.</p>
+                <p>The study identifies seven student clusters and uses supervised classification to interpret the resulting profiles. An XGBoost classifier achieves an overall accuracy of 0.8643 in predicting cluster assignments. The researchers also use SHAP (SHapley Additive exPlanations) values to examine how different features contribute to the model's predictions.</p>
+                <p>SHAP helps explain both overall patterns in the classification model and the factors influencing individual predictions. By combining clustering, classification, and model interpretation, the study moves beyond identifying student groups to describing the characteristics associated with those groups.</p>
+                <h4>Main Takeaway</h4>
+                <p>This application illustrates how an explainable clustering framework can transform complex data into interpretable profiles. It also demonstrates why classification is useful after clustering: the classifier provides an additional method for examining the features that distinguish the identified groups.</p>
+                <h3>Application to Our Project</h3>
+                <p>We will apply the same four-stage framework to estimated sales data from Seoul's commercial districts in 2025. Our unit of analysis will be the commercial district–quarter observation, and our two initial clustering features will be transaction volume and average transaction value.</p>
+                <p>
+                    <strong>1. Data Preprocessing</strong>
+                </p>
+                <p>We will aggregate sales amounts and transaction counts across service industries for each commercial district and quarter. Average transaction value will be calculated by dividing total estimated sales by total estimated transaction counts. We will examine missing values, duplicate records, zero transaction counts, and outliers. Transaction volume will undergo a log(1 + x) transformation, and both clustering features will be standardized.</p>
+                <p>
+                    <strong>2. Dimensionality Reduction</strong>
+                </p>
+                <p>We will evaluate whether Principal Component Analysis (PCA) is appropriate for our two-feature design. Because our initial dataset for clustering contains only two features, dimensionality reduction may provide limited benefits and could remove information needed to distinguish transaction volume from average transaction value. We will assess its usefulness rather than assume that reducing the number of dimensions is necessary.</p>
+                <p>
+                    <strong>3. Clustering</strong>
+                </p>
+                <p>We will group commercial district–quarter observations according to transaction volume and average transaction value. The number of clusters will be determined through evaluation rather than fixed in advance. Potential profiles may differ in their combinations of transaction volume and average transaction value, but the actual cluster characteristics will be determined by the analysis.</p>
+                <p>
+                    <strong>4. Classification for Explainability</strong>
+                </p>
+                <p>After generating cluster labels, we will use them as the target variable in a supervised classification model. We will examine which features help distinguish the resulting clusters and consider additional characteristics, such as commercial district type, industry composition, and sales patterns, when interpreting the groups.</p>
+                <p>If the classification model uses the same two features as the clustering algorithm, its results will characterize the existing cluster structure rather than independently validate it. We will interpret the findings accordingly.</p>
+                <h3>Conclusion</h3>
+                <p>The two papers provide both a methodological framework and a practical example of explainable cluster analysis. Our project will use these ideas to identify different types of commercial activity in Seoul and explain the characteristics associated with the resulting clusters. The objective is not only to group commercial districts but also to make the identified patterns understandable and useful for interpretation.</p>
+            </section>
         </main>
     </body>
 </html>
