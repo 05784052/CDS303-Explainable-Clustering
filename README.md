@@ -23,9 +23,9 @@ We will use an explainable clustering framework to identify these profiles and i
 
 **Source:** [서울특별시_우리마을가게 상권분석서비스(상권-추정매출)](https://www.data.go.kr/data/15076355/fileData.do)
 
-The dataset contains 85,732 records and 55 variables covering the four quarters of 2025. It includes estimated sales amounts, transaction counts, commercial district identifiers, service industry categories, and sales breakdowns by day of the week, time period, gender, and customer age group.
+The dataset contains estimated sales amounts, transaction counts, commercial district identifiers, service industry classifications, and sales information categorized by day of the week, time period, gender, and customer age group.
 
-The original data is organized by year-quarter, commercial district, and service industry. For this project, we will aggregate service industry records within each commercial district and quarter.
+The original data is organized by year-quarter, commercial district, and service industry. For this project, we will aggregate the records to the commercial district level for cluster analysis.
 
 ## Unit of Analysis and Key Variables
 
