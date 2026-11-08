@@ -1,1 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>CDS 303 — Explainable Clustering of Seoul Commercial Districts</title>
+        <style>
+            :root {
+                color-scheme: light;
+            }
 
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                margin: 0;
+                background: #f7f8fa;
+                color: #202a38;
+                font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+                line-height: 1.7;
+            }
+
+            main {
+                max-width: 900px;
+                margin: 44px auto 70px;
+                background: white;
+                padding: 48px 56px;
+                border: 1px solid #e3e7ec;
+                border-radius: 14px;
+                box-shadow: 0 6px 24px rgba(28,42,59,.04);
+            }
+
+            h1 {
+                font-size: 1.85rem;
+                line-height: 1.35;
+                margin: 0 0 22px;
+                letter-spacing: -.025em;
+            }
+
+            h1:first-child {
+                font-size: .95rem;
+                font-weight: 600;
+                color: #58708c;
+                margin-bottom: 12px;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+                margin: 34px 0 12px;
+                padding-bottom: 8px;
+                border-bottom: 1px solid #e6ebf1;
+            }
+
+            p, li {
+                font-size: 1rem;
+            }
+
+            a {
+                color: #185eac;
+                overflow-wrap: anywhere;
+            }
+
+            li {
+                margin-bottom: 8px;
+            }
+
+            @media(max-width: 680px) {
+                main {
+                    margin:0;
+                    padding: 28px 20px;
+                    border: 0;
+                    border-radius: 0;
+                }
+
+                h1 {
+                    font-size: 1.5rem;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <h1>CDS303-Explainable-Clustering</h1>
+            <h1>Explainable Clustering of Seoul Commercial Districts Based on Transaction Volume and Average Transaction Value</h1>
+            <p>
+                <strong>Course:</strong>
+                CDS 303 – Scientific Data Mining<br/>
+                <strong>Team:</strong>
+                G9<br/>
+                <strong>Team Members:</strong>
+                Hyukjoon Choi and Yujin Yang
+            </p>
+            <h2>Project Overview</h2>
+            <p>This project aims to identify and explain distinct types of commercial districts in Seoul based on transaction volume and average transaction value. Using estimated sales data from 2025, we will examine differences in commercial activity and identify groups of districts with similar transaction characteristics.</p>
+            <p>Our analysis focuses on two aspects of commercial activity: how many transactions occur within a commercial district and how much is spent per transaction on average. These measures may reveal different commercial activity profiles, such as districts characterized by high transaction volumes and relatively low average transaction values or districts with fewer transactions but higher average transaction values.</p>
+            <p>We will use an explainable clustering framework to identify these profiles and investigate the characteristics that distinguish them. The findings may provide useful insights for small-business support organizations and commercial district policy planners seeking to understand differences in commercial activity across Seoul.</p>
+            <h2>Research Question</h2>
+            <p>
+                <strong>What distinct types of Seoul's commercial districts can be identified based on transaction volume and average transaction value, and which features best explain these differences?</strong>
+            </p>
+            <h2>Dataset</h2>
+            <p>
+                <strong>Dataset:</strong>
+                Seoul Commercial District Analysis Service — Estimated Sales by Commercial District (2025)
+            </p>
+            <p>
+                <strong>Source:</strong>
+                <a href="https://www.data.go.kr/data/15076355/fileData.do">서울특별시_우리마을가게 상권분석서비스(상권-추정매출)</a>
+            </p>
+            <p>The dataset contains 85,732 records and 55 variables covering the four quarters of 2025. It includes estimated sales amounts, transaction counts, commercial district identifiers, service industry categories, and sales breakdowns by day of the week, time period, gender, and customer age group.</p>
+            <p>The original data is organized by year-quarter, commercial district, and service industry. For this project, we will aggregate service industry records within each commercial district and quarter.</p>
+            <h2>Unit of Analysis and Key Variables</h2>
+            <p>
+                <strong>Unit of analysis:</strong>
+                Commercial district × quarter<br/>
+                <strong>Study period:</strong>
+                2025, Q1–Q4
+            </p>
+            <p>Each observation will represent one commercial district in a particular quarter. This approach allows us to examine quarterly differences in commercial activity. A district may therefore belong to different clusters across quarters.</p>
+            <p>We will focus on two clustering features:</p>
+            <ol>
+                <li>
+                    <strong>Transaction volume:</strong>
+                    The total estimated number of transactions within a commercial district during a quarter. We plan to apply a log(1 + x) transformation to reduce the influence of extremely large transaction counts.
+                </li>
+                <li>
+                    <strong>Average transaction value:</strong>
+                    Total estimated sales divided by total estimated transaction counts for each district–quarter observation.
+                </li>
+            </ol>
+            <p>Both features will be standardized before clustering. Observations with zero transactions will be examined separately because their average transaction value cannot be calculated.</p>
+            <p>The log transformation will reduce differences in scale but will not eliminate the influence of district size. Accordingly, the analysis will characterize commercial activity patterns that may also reflect differences in the scale of commercial districts.</p>
+            <h2>Proposed Analytical Framework</h2>
+            <p>We will follow the four-stage explainable clustering framework introduced in the assigned research papers:</p>
+            <ol>
+                <li>
+                    <strong>Data preprocessing:</strong>
+                    Aggregate the original records, calculate average transaction value, examine data quality, and transform and standardize the selected features.
+                </li>
+                <li>
+                    <strong>Dimensionality reduction:</strong>
+                    Evaluate whether dimensionality reduction is appropriate given the two-feature clustering design. We will avoid reducing dimensions solely to apply a technique if doing so would unnecessarily discard useful information.
+                </li>
+                <li>
+                    <strong>Clustering:</strong>
+                    Identify groups of district–quarter observations based on transaction volume and average transaction value. The number of clusters will be selected through evaluation rather than predetermined.
+                </li>
+                <li>
+                    <strong>Classification for explainability:</strong>
+                    Use the generated cluster labels as classification targets to identify the features that distinguish the resulting groups.
+                </li>
+            </ol>
+            <p>We may also examine service industry composition and sales patterns by time of day, day of the week, and customer age group to provide additional context for interpreting the clusters. These characteristics are not part of the initial two-feature clustering design.</p>
+            <h2>Expected Contribution</h2>
+            <p>The project seeks to develop interpretable profiles of commercial districts based on their transaction characteristics. Rather than assuming a fixed set of district types, we will determine the number and characteristics of clusters through analysis.</p>
+            <p>The resulting profiles may help describe how commercial activity differs across Seoul's districts and quarters. Any interpretations will be based on the observed data and evaluated clustering results rather than predefined categories.</p>
+        </main>
+    </body>
+</html>
