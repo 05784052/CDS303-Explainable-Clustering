@@ -225,6 +225,193 @@
                 <h3>Conclusion</h3>
                 <p>The two papers provide both a methodological framework and a practical example of explainable cluster analysis. Our project will use these ideas to identify different types of commercial activity in Seoul and explain the characteristics associated with the resulting clusters. The objective is not only to group commercial districts but also to make the identified patterns understandable and useful for interpretation.</p>
             </section>
+            <section id="variable-selection">
+                <h2>Variable Selection &amp; Preprocessing</h2>
+                <h3>Unit of Analysis</h3>
+                <p>
+                    Our unit of analysis is <strong>commercial district × quarter</strong>
+                    , covering Q1–Q4 of 2025. We will aggregate the original service-industry-level records by commercial district (<code>상권_코드</code>
+                    ) and year-quarter (<code>기준_년분기_코드</code>
+                    ).
+                </p>
+                <p>We selected two features for clustering: transaction volume and average transaction value. Additional variables will be considered for classification and cluster interpretation, but they will not be included in the initial clustering inputs.</p>
+                <h3>Variable Selection Table</h3>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Variable name</th>
+                                <th>Description and unit</th>
+                                <th>Data type</th>
+                                <th>Proposed role</th>
+                                <th>Rationale / preparation needed</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Transaction Volume (derived from <code>당월_매출_건수</code>
+                                    )
+                                </td>
+                                <td>Total estimated transaction count per district–quarter; transactions</td>
+                                <td>Numerical</td>
+                                <td>Clustering input; candidate classification input</td>
+                                <td>
+                                    Sum transaction counts across industries, apply <code>log1p()</code>
+                                    , and standardize
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Average Transaction Value (derived from <code>당월_매출_금액</code>
+                                    and <code>당월_매출_건수</code>
+                                    )
+                                </td>
+                                <td>Total estimated sales divided by total estimated transactions; KRW per transaction</td>
+                                <td>Numerical</td>
+                                <td>Clustering input; candidate classification input</td>
+                                <td>Calculate from aggregated totals rather than averaging industry-level ratios; check zero denominators and standardize</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <code>상권_구분_코드_명</code>
+                                </td>
+                                <td>Commercial district category; no unit</td>
+                                <td>Categorical</td>
+                                <td>Candidate classification input; contextual variable</td>
+                                <td>Check category consistency within districts and encode if used in classification</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Weekend Transaction Share (derived from <code>주말_매출_건수</code>
+                                    )
+                                </td>
+                                <td>Weekend transactions divided by total transactions; proportion</td>
+                                <td>Numerical</td>
+                                <td>Candidate classification input; contextual variable</td>
+                                <td>Aggregate weekend counts and divide by total transaction counts; handle zero denominators</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Evening Sales Share (derived from <code>시간대_17~21_매출_금액</code>
+                                    )
+                                </td>
+                                <td>Sales from 17:00 to 21:00 divided by total estimated sales; proportion</td>
+                                <td>Numerical</td>
+                                <td>Candidate classification input; contextual variable</td>
+                                <td>Aggregate evening sales and divide by total sales; handle zero denominators</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Sales Share from Customers in Their 20s (derived from <code>연령대_20_매출_금액</code>
+                                    )
+                                </td>
+                                <td>Estimated sales attributed to customers in their 20s divided by total estimated sales; proportion</td>
+                                <td>Numerical</td>
+                                <td>Candidate classification input; contextual variable</td>
+                                <td>Aggregate the age-group sales amounts and calculate the proportion; check denominator validity</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Industry Composition (derived from <code>서비스_업종_코드_명</code>
+                                    )
+                                </td>
+                                <td>Distribution of commercial activity across service industries; proportions</td>
+                                <td>Numerical after derivation</td>
+                                <td>Candidate classification input; contextual variable</td>
+                                <td>Define industry-level proportions, aggregate by district–quarter, and represent industry composition numerically</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <code>상권_코드</code>
+                                </td>
+                                <td>Commercial district identifier; no unit</td>
+                                <td>Categorical identifier</td>
+                                <td>Exclude from model inputs</td>
+                                <td>Use for grouping and tracking observations, not as a predictor</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <code>기준_년분기_코드</code>
+                                </td>
+                                <td>Year-quarter identifier; no unit</td>
+                                <td>Categorical/temporal identifier</td>
+                                <td>Exclude from initial model inputs</td>
+                                <td>Use for grouping and temporal comparison</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <code>상권_코드_명</code>
+                                </td>
+                                <td>Commercial district name; no unit</td>
+                                <td>Categorical identifier</td>
+                                <td>Exclude from model inputs</td>
+                                <td>Retain for reporting and identifying districts</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <code>서비스_업종_코드</code>
+                                </td>
+                                <td>Service industry identifier; no unit</td>
+                                <td>Categorical identifier</td>
+                                <td>Exclude as a direct model input</td>
+                                <td>Use to construct industry composition instead of treating industry codes as numerical measurements</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h3>Rationale for Clustering Features</h3>
+                <p>Transaction volume measures the level of commercial transaction activity, while average transaction value describes the estimated amount spent per transaction.</p>
+                <p>Together, these two variables can distinguish commercial districts with different combinations of transaction activity and spending patterns. For example, some districts may have many transactions with relatively low average transaction values, while others may have fewer transactions with higher average values.</p>
+                <p>These profiles are illustrative rather than predetermined. We will select the number of clusters based on evaluation results.</p>
+                <p>Transaction volume may also reflect differences in commercial district size. The logarithmic transformation will reduce the influence of extremely large transaction counts but will not fully control for district size. Therefore, our analysis will examine commercial activity patterns that may include scale differences.</p>
+                <h3>Candidate Classification Predictors</h3>
+                <p>After clustering, the generated cluster labels will serve as the target variable for supervised classification.</p>
+                <p>The two clustering features may also be used as classification inputs to examine how well a model reproduces the identified cluster boundaries. However, because these features are used to create the clusters, such classification would characterize the existing clustering structure rather than independently validate it.</p>
+                <p>We will also consider commercial district type, weekend transaction share, evening sales share, sales share from customers in their 20s, and industry composition as additional candidate predictors. These variables may help describe characteristics associated with cluster membership beyond the two clustering inputs.</p>
+                <p>The final classification feature set and interpretation methods will be determined during the modeling stage. Cluster labels will never be included as classification input features.</p>
+                <h3>Preprocessing Plan</h3>
+                <ol>
+                    <li>
+                        <strong>Aggregate observations:</strong>
+                        Group records by commercial district code and year-quarter, combining the service industry records within each group.
+                    </li>
+                    <li>
+                        <strong>Check data quality:</strong>
+                        Examine missing values, duplicate records, zero transaction counts, invalid denominators, and potential outliers.
+                    </li>
+                    <li>
+                        <strong>Calculate clustering features:</strong>
+                        Sum estimated transaction counts and estimated sales amounts, then calculate average transaction value as total estimated sales divided by total estimated transactions.
+                    </li>
+                    <li>
+                        <strong>Transform transaction volume:</strong>
+                        Apply <code>log1p()</code>
+                        to the aggregated transaction counts.
+                    </li>
+                    <li>
+                        <strong>Standardize features:</strong>
+                        Apply <code>StandardScaler</code>
+                        to the two clustering inputs before distance-based clustering.
+                    </li>
+                    <li>
+                        <strong>Prepare interpretation variables:</strong>
+                        Calculate transaction and sales shares from aggregated totals, verify categorical values, and encode categorical variables if needed for classification.
+                    </li>
+                    <li>
+                        <strong>Evaluate dimensionality reduction:</strong>
+                        Examine whether PCA is useful for the two-feature clustering design. We will retain both features if reducing dimensionality would unnecessarily remove important information.
+                    </li>
+                    <li>
+                        <strong>Evaluate clustering results:</strong>
+                        Determine the number of clusters using appropriate evaluation criteria and examine cluster sizes, separation, and feature distributions.
+                    </li>
+                </ol>
+                <h3>Summary</h3>
+                <p>Our initial clustering analysis will focus on transaction volume and average transaction value. The additional variables will support classification and interpretation rather than directly determine the clusters.</p>
+                <p>This design maintains a focused research question while allowing us to examine the characteristics that distinguish the resulting commercial district profiles.</p>
+            </section>
         </main>
     </body>
 </html>
+
