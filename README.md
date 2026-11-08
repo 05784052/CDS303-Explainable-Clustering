@@ -7,13 +7,15 @@
 
 ## Project Overview
 
-This project aims to identify and interpret distinct types of commercial districts in Seoul based on their sales patterns. Building on our initial exploration of Seoul's commercial district data, we plan to apply an explainable clustering framework to examine how commercial activity varies across weekdays, weekends, times of day, and customer age groups.
+This project investigates patterns of commercial activity across Seoul's commercial districts using an explainable clustering framework. Building on our initial exploration of estimated sales data, we aim to identify groups of district–quarter observations with similar sales characteristics and explain the features that distinguish these groups.
 
-Rather than focusing solely on total sales volume, the proposed analysis emphasizes differences in the composition of sales. The resulting district profiles may help small-business support organizations and commercial district policy planners better understand variations in local commercial activity.
+Our analysis focuses on the composition of sales across weekdays and weekends, times of day, and customer age groups, rather than relying solely on total sales volume. Understanding these differences may provide useful context for small-business support organizations and commercial district policy planners.
 
 ## Research Question
 
-What distinct types of commercial districts in Seoul can be identified based on their sales patterns, and which characteristics best explain the differences among these groups?
+**What distinct types of commercial districts in Seoul can be identified based on their sales patterns, and which characteristics best explain the differences among these groups?**
+
+Because the unit of analysis is a commercial district in a particular quarter, the identified clusters will represent district–quarter profiles. The same district may belong to different clusters in different quarters.
 
 ## Current Dataset
 
@@ -21,17 +23,25 @@ What distinct types of commercial districts in Seoul can be identified based on 
 
 **Source:** [Public Data Portal](https://www.data.go.kr/data/15076355/fileData.do)
 
-The dataset contains 85,732 observations and 55 variables covering commercial districts in Seoul during all four quarters of 2025. It includes estimated sales amounts, transaction counts, commercial district identifiers, service industry categories, and sales breakdowns by day of the week, time period, gender, and age group.
+The dataset contains 85,732 records and 55 variables covering four quarters of 2025. It includes commercial district and service industry identifiers, estimated sales amounts, transaction counts, and sales breakdowns by weekday, time period, gender, and customer age group.
 
-The original records are organized by year-quarter, commercial district, and service industry. We propose aggregating industry-level records into commercial district–quarter observations for clustering. This would allow us to examine sales patterns across districts while retaining quarterly variation.
+The original records are organized by year-quarter, commercial district, and service industry. They cover 1,577 distinct commercial districts and 62 service industry categories. The dataset contains 6,276 distinct commercial district–quarter combinations before preprocessing.
 
-## Proposed Analytical Approach
+## Unit of Analysis
 
-We plan to follow the four-stage explainable clustering framework:
+**Commercial district × quarter**
 
-1. **Data preprocessing:** Aggregate records, assess data quality, and prepare relevant features.
-2. **Dimensionality reduction:** Examine whether correlated or redundant features can be represented more compactly.
+We plan to aggregate service industry records within each commercial district and quarter to construct the analytical dataset. This approach retains quarterly variation while allowing comparisons of sales patterns across districts.
+
+Candidate features include weekend sales share, evening sales share, and sales shares associated with different customer age groups. The final feature set will be determined through variable selection and data quality assessment.
+
+## Proposed Methodology
+
+The project follows a four-stage explainable clustering framework:
+
+1. **Data preprocessing:** Aggregate industry-level records, assess data quality, and prepare suitable analytical features.
+2. **Dimensionality reduction:** Evaluate methods for reducing redundant information among the selected features.
 3. **Clustering:** Identify groups of district–quarter observations with similar sales patterns.
-4. **Classification for explainability:** Use the resulting cluster labels as targets to investigate which characteristics distinguish the identified groups.
+4. **Classification for explainability:** Use the resulting cluster labels as classification targets to identify characteristics that distinguish the groups.
 
-The methodology and variable choices will be developed further during Session 1. No clustering or classification results are reported at this stage.
+The current session focuses on research design, variable selection, and supplementary data planning. Clustering and classification results have not yet been produced.
