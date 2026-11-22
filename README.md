@@ -1,61 +1,38 @@
-# CDS303-Explainable-Clustering
-# Explainable Clustering of Seoul Commercial Districts Based on Transaction Volume and Average Transaction Value
+# CDS303 Final Project 2
 
-**Course:** CDS 303 – Scientific Data Mining  
-**Team:** G9  
-**Team Members:** Hyukjoon Choi and Yujin Yang
+**Research question:** What common patterns of floating population and estimated sales characterize Seoul commercial districts in 2025 Q1?
 
-## Project Overview
+This project integrates district-level floating-population and estimated-sales indicators and uses principal component analysis (PCA) to examine their main directions of variation. The analysis covers **1,572 matched Seoul commercial districts** in 2025 Q1. It is exploratory, not causal or predictive.
 
-This project aims to identify and explain distinct types of commercial districts in Seoul based on transaction volume and average transaction value. Using estimated sales data from 2025, we will examine differences in commercial activity and identify groups of districts with similar transaction characteristics.
+## Project files
 
-Our analysis focuses on two aspects of commercial activity: how many transactions occur within a commercial district and how much is spent per transaction on average. These measures may reveal different commercial activity profiles, such as districts characterized by high transaction volumes and relatively low average transaction values or districts with fewer transactions but higher average transaction values.
+- [Final project report](Final_Project_2_Report.md) — research question, audience, data preparation, PCA findings, and limitations
+- [Reproducible Jupyter notebook](Final_Project_2.ipynb) — integration of the supplied district-level CSVs, preprocessing, PCA, and figures
+- [Floating-population input](data/floating_population_2025Q1.csv)
+- [Estimated-sales input](data/estimated_sales_2025Q1.csv)
+- [Integrated analysis dataset](data/analysis_2025Q1.csv)
+- [PCA component coefficients](data/pca_loadings.csv)
+- [Scree plot](figures/scree.png)
+- [Cumulative explained variance plot](figures/cumulative.png)
+- [PC1–PC2 biplot](figures/biplot.png)
 
-We will use an explainable clustering framework to identify these profiles and investigate the characteristics that distinguish them. The findings may provide useful insights for small-business support organizations and commercial district policy planners seeking to understand differences in commercial activity across Seoul.
+## Data sources and access
 
-## Research Question
+The two source datasets are from **Seoul Open Data Plaza** ([data.seoul.go.kr](https://data.seoul.go.kr/)):
 
-**What distinct types of Seoul's commercial districts can be identified based on transaction volume and average transaction value, and which features best explain these differences?**
+1. **서울시 상권분석서비스(길단위인구-상권)** — floating population by commercial district and quarter.
+2. **서울시 상권분석서비스(추정매출-상권)** — estimated sales and transaction counts by commercial district, quarter, and industry category.
 
-## Dataset
+To locate the original datasets, search the Korean titles on the Seoul Open Data Plaza website. The original XLSX files were supplied separately by the project team; **they are not included in this project folder**. The two CSV input files linked above are the included, already-prepared **2025 Q1 district-level summaries**. The floating-population summary contains weekday, weekend, male, and female measures. The sales summary contains estimated sales and transactions summed across industry categories within each district. The upstream extraction and aggregation from the original XLSX files are **not reproduced in the notebook**.
 
-**Dataset:** Seoul Commercial District Analysis Service — Estimated Sales by Commercial District (2025)
+In the original 2025 Q1 source data, there were 1,650 floating-population districts and 1,572 estimated-sales districts; 1,572 district codes matched. The supplied floating-population CSV already contains only these 1,572 matched districts. Because both input CSVs represent 2025 Q1 and do not contain a quarter column, the notebook joins them **on `district_code` alone** using a validated one-to-one inner join. The 78 floating-population districts without a sales match are outside the integrated analysis; they are not rows deleted for missing PCA values.
 
-**Source:** [서울특별시_우리마을가게 상권분석서비스(상권-추정매출)](https://www.data.go.kr/data/15076355/fileData.do)
+## Method and key findings
 
-The dataset contains 85,732 records and 55 variables covering the four quarters of 2025. It includes estimated sales amounts, transaction counts, commercial district identifiers, service industry categories, and sales breakdowns by day of the week, time period, gender, and customer age group.
+The notebook checks district-code uniqueness and validates the six PCA inputs for missing, non-finite, and negative values. It excludes the district identifier from PCA, applies `log1p` to the six nonnegative indicators to reduce skewness, and standardizes them before fitting PCA. The six inputs are weekday and weekend floating population, male and female floating population, estimated sales, and estimated transactions. No categorical variables are encoded.
 
-The original data is organized by year-quarter, commercial district, and service industry. For this project, we will aggregate service industry records within each commercial district and quarter.
+PC1 explains **76.47%** of the variance and PC2 explains **22.27%**; together they explain **98.74%**. The analysis retains **two components** using a project-selected 80% cumulative explained variance threshold. PC1 primarily reflects overall district activity, while PC2 contrasts sales-related indicators with floating-population indicators. These patterns support exploratory comparisons but do not establish clusters, business success, or causal relationships.
 
-## Unit of Analysis and Key Variables
+## Reproducing the analysis
 
-**Unit of analysis:** Commercial district × quarter  
-**Study period:** 2025, Q1–Q4
-
-Each observation will represent one commercial district in a particular quarter. This approach allows us to examine quarterly differences in commercial activity. A district may therefore belong to different clusters across quarters.
-
-We will focus on two clustering features:
-
-1. **Transaction volume:** The total estimated number of transactions within a commercial district during a quarter. We plan to apply a log(1 + x) transformation to reduce the influence of extremely large transaction counts.
-2. **Average transaction value:** Total estimated sales divided by total estimated transaction counts for each district–quarter observation.
-
-Both features will be standardized before clustering. Observations with zero transactions will be examined separately because their average transaction value cannot be calculated.
-
-The log transformation will reduce differences in scale but will not eliminate the influence of district size. Accordingly, the analysis will characterize commercial activity patterns that may also reflect differences in the scale of commercial districts.
-
-## Proposed Analytical Framework
-
-We will follow the four-stage explainable clustering framework introduced in the assigned research papers:
-
-1. **Data preprocessing:** Aggregate the original records, calculate average transaction value, examine data quality, and transform and standardize the selected features.
-2. **Dimensionality reduction:** Evaluate whether dimensionality reduction is appropriate given the two-feature clustering design. We will avoid reducing dimensions solely to apply a technique if doing so would unnecessarily discard useful information.
-3. **Clustering:** Identify groups of district–quarter observations based on transaction volume and average transaction value. The number of clusters will be selected through evaluation rather than predetermined.
-4. **Classification for explainability:** Use the generated cluster labels as classification targets to identify the features that distinguish the resulting groups.
-
-We may also examine service industry composition and sales patterns by time of day, day of the week, and customer age group to provide additional context for interpreting the clusters. These characteristics are not part of the initial two-feature clustering design.
-
-## Expected Contribution
-
-The project seeks to develop interpretable profiles of commercial districts based on their transaction characteristics. Rather than assuming a fixed set of district types, we will determine the number and characteristics of clusters through analysis.
-
-The resulting profiles may help describe how commercial activity differs across Seoul's districts and quarters. Any interpretations will be based on the observed data and evaluated clustering results rather than predefined categories.
+Install the dependencies in [`requirements.txt`](requirements.txt), open `Final_Project_2.ipynb`, and run all cells **with the project root as the working directory**. The notebook reads the two input CSVs in `data/` and saves the three plots to `figures/`. It does not automatically regenerate every supplemental CSV, JSON, or NPZ artifact or the upstream source-data summaries. The report provides the full interpretation and limitations.
