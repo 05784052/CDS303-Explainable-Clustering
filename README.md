@@ -1,4 +1,4 @@
-# CDS303 Final Project 2
+# CDS303 Group 9 Final Project 2
 
 **Research question:** What common patterns of floating population and estimated sales characterize Seoul commercial districts in 2025 Q1?
 
