@@ -35,4 +35,4 @@ PC1 explains **76.47%** of the variance and PC2 explains **22.27%**; together th
 
 ## Reproducing the analysis
 
-Install the dependencies in [`requirements.txt`](requirements.txt), open `Final_Project_2.ipynb`, and run all cells **with the project root as the working directory**. The notebook reads the two input CSVs in `data/` and saves the three plots to `figures/`. It does not automatically regenerate every supplemental CSV, JSON, or NPZ artifact or the upstream source-data summaries. The report provides the full interpretation and limitations.
+Install the dependencies in [`requirements.txt`](requirements.txt), open [`Final_Project_2.ipynb`](Final_Project_2.ipynb), and run all cells **with the project root as the working directory**. The notebook reads the two input CSVs in `data/` and saves the three plots to `figures/`. It does not automatically regenerate every supplemental CSV, JSON, or NPZ artifact or the upstream source-data summaries. The report provides the full interpretation and limitations.
