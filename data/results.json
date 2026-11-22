@@ -1,0 +1,33 @@
+{
+  "n_foot": 1650,
+  "n_sales": 1572,
+  "n_merged_before_clean": 1572,
+  "n_final": 1572,
+  "variance": [
+    0.7647224730689196,
+    0.22270658991443051,
+    0.009420499856543857,
+    0.00204305737885602,
+    0.0010614246196686654,
+    4.595516158147045e-05
+  ],
+  "loadings": {
+    "PC1": {
+      "weekday_foot": 0.452,
+      "weekend_foot": 0.448,
+      "male_foot": 0.453,
+      "female_foot": 0.45,
+      "sales": 0.297,
+      "transactions": 0.314
+    },
+    "PC2": {
+      "weekday_foot": -0.208,
+      "weekend_foot": -0.229,
+      "male_foot": -0.205,
+      "female_foot": -0.222,
+      "sales": 0.653,
+      "transactions": 0.622
+    }
+  },
+  "quarter": "2025Q1"
+}
